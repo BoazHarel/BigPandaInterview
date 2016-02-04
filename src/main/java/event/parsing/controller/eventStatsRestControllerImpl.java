@@ -13,8 +13,6 @@ import java.util.Map;
 @RestController
 public class eventStatsRestControllerImpl implements eventStatsRestController {
 
-    private static final String ALL_EVENTS = "";
-
     @RequestMapping("/eventCount")
     public Map<String, Long> getEventCount(@RequestParam(value = "name", defaultValue = ALL_EVENTS) String name) {
         return Collections.singletonMap("Test", 123L);
