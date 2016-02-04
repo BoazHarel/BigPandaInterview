@@ -13,14 +13,9 @@ public class EventStats {
         words = new ConcurrentSkipListSet<>();
     }
 
-    public EventStats(Event event) {
-        this();
-        digest(event);
-    }
-
-    public void digest(Event event) {
+    public void addEventData(String eventData) {
         eventCount++;
-        words.add(event.getData());
+        words.add(eventData);
     }
 
     public long getEventCount() {

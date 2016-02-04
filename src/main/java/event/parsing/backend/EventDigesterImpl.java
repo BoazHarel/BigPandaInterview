@@ -18,11 +18,13 @@ public class EventDigesterImpl implements EventDigester {
         String eventType = event.getType();
 
         if (!eventToStats.containsKey(eventType)) {
-            eventToStats.put(eventType, new EventStats(event));
+            EventStats eventStats = new EventStats();
+            eventStats.addEventData(event.getData());
+            eventToStats.put(eventType, eventStats);
             return;
         }
 
-        eventToStats.get(eventType).digest(event);
+        eventToStats.get(eventType).addEventData(event.getData());
     }
 
     public EventStats getEventStats(String eventType) {
