@@ -6,9 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Created by bharel on 2/4/2016.
  */
 public class Event {
-
-
-
     @JsonProperty("event_type")
     private String type;
     @JsonProperty("data")
@@ -16,6 +13,11 @@ public class Event {
     @JsonProperty("timestamp")
     private long timeStamp;
 
+    public Event(String type, String data, long timeStamp) {
+        this.type = type;
+        this.data = data;
+        this.timeStamp = timeStamp;
+    }
 
     public String getType() {
         return type;
