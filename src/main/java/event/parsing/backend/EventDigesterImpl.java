@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
  */
 public class EventDigesterImpl implements EventDigester {
 
-    ConcurrentNavigableMap<String, EventStats> eventToStats = new ConcurrentSkipListMap<>();
+    private ConcurrentNavigableMap<String, EventStats> eventToStats = new ConcurrentSkipListMap<>();
 
     public void digest(Event event) {
         String eventType = event.getType();
