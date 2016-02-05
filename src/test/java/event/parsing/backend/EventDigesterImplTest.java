@@ -2,6 +2,7 @@ package event.parsing.backend;
 
 import event.parsing.model.Event;
 import event.parsing.model.EventStats;
+import event.parsing.model.SimpleEvent;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,9 +25,9 @@ public class EventDigesterImplTest {
 
     @Test
     public void testEventStats(){
-        Event<String> a = new Event<>("typeA", "word1", 123);
-        Event<String> b = new Event<>("typeB", "word1", 123);
-        Event<String> anotherB = new Event<>("typeB", "word2", 123);
+        Event<String> a = new SimpleEvent<>("typeA", "word1", 123);
+        Event<String> b = new SimpleEvent<>("typeB", "word1", 123);
+        Event<String> anotherB = new SimpleEvent<>("typeB", "word2", 123);
 
         List<Event<String>> events = Arrays.asList(a, b, anotherB);
 

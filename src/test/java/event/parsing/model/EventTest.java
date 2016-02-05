@@ -24,7 +24,7 @@ public class EventTest {
                     , timeStamp);
         ObjectMapper objectMapper = new ObjectMapper();
 
-        Event event = objectMapper.readValue(json, Event.class);
+        Event event = objectMapper.readValue(json, SimpleEvent.class);
 
         assertEquals(type, event.getType());
         assertEquals(data, event.getData());
