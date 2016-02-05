@@ -41,12 +41,7 @@ public class EventConsumerImpl implements EventConsumer {
         Thread thread = new Thread(() -> {
             while (true) {
                 try {
-                    Event event = events.poll();
-                    if (event == null) {
-                        Thread.sleep(0);
-                        continue;
-                    }
-
+                    Event event = events.take();
                     consume(event);
                 } catch (InterruptedException e) {
                     logger.error(e);
