@@ -13,6 +13,9 @@ public class Event<T> {
     @JsonProperty("timestamp")
     private long timeStamp;
 
+    public Event() {
+    }
+
     public Event(String type, T data, long timeStamp) {
         this.type = type;
         this.data = data;
