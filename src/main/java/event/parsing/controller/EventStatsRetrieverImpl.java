@@ -1,7 +1,12 @@
 package event.parsing.controller;
 
+import event.parsing.backend.EventConsumer;
+import event.parsing.model.EventStats;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.AbstractMap;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -11,15 +16,29 @@ import java.util.Set;
 @Service
 public class EventStatsRetrieverImpl implements EventStatsRetriever {
 
-    public Map<String, Long> getEventCount(String eventType) {
-        return null;
+    @Autowired
+    private EventConsumer eventConsumer;
+
+    @Override
+    public Map.Entry<String, Long> getEventCount(String eventType) {
+        EventStats eventStats = getEventStats(eventType);
+        long eventCount = eventStats.getEventCount();
+        return new AbstractMap.SimpleEntry<>(eventType, eventCount);
     }
 
-    public Map<String, Long> getWordCount(String eventType) {
-        return null;
+    private EventStats getEventStats(String eventType) {
+        return eventConsumer.getEventTypeToStatsMap().get(eventType);
     }
 
+    @Override
+    public Map.Entry<String, Long> getWordCount(String eventType) {
+        EventStats eventStats = getEventStats(eventType);
+        long dataCount = eventStats.getDataCount();
+        return new AbstractMap.SimpleEntry<>(eventType, dataCount);
+    }
+
+    @Override
     public Set<String> getEventTypes() {
-        return null;
+        return eventConsumer.getEventTypeToStatsMap().keySet();
     }
 }

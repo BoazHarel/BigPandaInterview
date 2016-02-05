@@ -25,13 +25,13 @@ public class EventStatsRestControllerImpl implements EventStatsRestController {
 
     @Override
     @RequestMapping("/events/{eventType}/eventCount")
-    public Map<String, Long> getEventCount(@PathVariable("eventType") String eventType) {
+    public Map.Entry<String, Long> getEventCount(@PathVariable("eventType") String eventType) {
         return eventStatsRetriever.getEventCount(eventType);
     }
 
     @Override
     @RequestMapping("/events/{eventType}/wordCount")
-    public Map<String, Long> getWordCount(@PathVariable("eventType") String eventType) {
+    public Map.Entry<String, Long> getWordCount(@PathVariable("eventType") String eventType) {
         return eventStatsRetriever.getWordCount(eventType);
     }
 }

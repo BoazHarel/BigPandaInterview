@@ -5,16 +5,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Created by bharel on 2/4/2016.
  */
-public class SimpleEvent<T> implements Event<T> {
+public class SimpleEvent implements Event {
     @JsonProperty("event_type")
     private String type;
     @JsonProperty("data")
-    private T data;
+    private String data;
 
     public SimpleEvent() {
     }
 
-    public SimpleEvent(String type, T data, long timeStamp) {
+    public SimpleEvent(String type, String data, long timeStamp) {
         this.type = type;
         this.data = data;
         this.timeStamp = timeStamp;
@@ -34,12 +34,12 @@ public class SimpleEvent<T> implements Event<T> {
     }
 
     @Override
-    public T getData() {
+    public String getData() {
         return data;
     }
 
     @Override
-    public void setData(T data) {
+    public void setData(String data) {
         this.data = data;
     }
 

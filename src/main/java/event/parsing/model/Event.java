@@ -3,14 +3,14 @@ package event.parsing.model;
 /**
  * Created by bharel on 2/5/2016.
  */
-public interface Event<T> {
+public interface Event {
     String getType();
 
     void setType(String type);
 
-    T getData();
+    String getData();
 
-    void setData(T data);
+    void setData(String data);
 
     long getTimeStamp();
 

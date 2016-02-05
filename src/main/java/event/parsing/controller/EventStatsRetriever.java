@@ -8,9 +8,9 @@ import java.util.Set;
  */
 public interface EventStatsRetriever {
 
-    Map<String,Long> getEventCount(String eventType);
+    Map.Entry<String,Long> getEventCount(String eventType);
 
-    Map<String,Long> getWordCount(String eventType);
+    Map.Entry<String,Long> getWordCount(String eventType);
 
     Set<String> getEventTypes();
 }
