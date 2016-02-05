@@ -5,15 +5,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Created by bharel on 2/4/2016.
  */
-public class Event {
+public class Event<T> {
     @JsonProperty("event_type")
     private String type;
     @JsonProperty("data")
-    private String data;
+    private T data;
     @JsonProperty("timestamp")
     private long timeStamp;
 
-    public Event(String type, String data, long timeStamp) {
+    public Event(String type, T data, long timeStamp) {
         this.type = type;
         this.data = data;
         this.timeStamp = timeStamp;
@@ -27,11 +27,11 @@ public class Event {
         this.type = type;
     }
 
-    public String getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(T data) {
         this.data = data;
     }
 

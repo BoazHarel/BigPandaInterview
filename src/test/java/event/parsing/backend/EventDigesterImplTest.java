@@ -15,28 +15,28 @@ import static org.junit.Assert.*;
  */
 public class EventDigesterImplTest {
 
-    EventDigesterImpl eventDigester;
+    EventDigesterImpl<String> eventDigester;
 
     @Before
     public void setup(){
-        eventDigester = new EventDigesterImpl();
+        eventDigester = new EventDigesterImpl<>();
     }
 
     @Test
     public void testEventStats(){
-        Event a = new Event("typeA", "word1", 123);
-        Event b = new Event("typeB", "word1", 123);
-        Event anotherB = new Event("typeB", "word2", 123);
+        Event<String> a = new Event<>("typeA", "word1", 123);
+        Event<String> b = new Event<>("typeB", "word1", 123);
+        Event<String> anotherB = new Event<>("typeB", "word2", 123);
 
-        List<Event> events = Arrays.asList(a, b, anotherB);
+        List<Event<String>> events = Arrays.asList(a, b, anotherB);
 
-        for (Event event : events) {
+        for (Event<String> event : events) {
             eventDigester.digest(event);
         }
 
         EventStats aStats = eventDigester.getEventStats("typeA");
         assertEquals(1, aStats.getEventCount());
-        assertEquals(1, aStats.getWordCount());
+        assertEquals(1, aStats.getDataCount());
     }
 
     @Test(expected = IllegalArgumentException.class)

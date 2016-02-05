@@ -5,24 +5,24 @@ import java.util.concurrent.ConcurrentSkipListSet;
 /**
  * Created by bharel on 2/4/2016.
  */
-public class EventStats {
+public class EventStats<T> {
     private long eventCount;
-    private ConcurrentSkipListSet<String> words;
+    private ConcurrentSkipListSet<T> data;
 
     public EventStats() {
-        words = new ConcurrentSkipListSet<>();
+        data = new ConcurrentSkipListSet<>();
     }
 
-    public void addEventData(String eventData) {
+    public void addEventData(T eventData) {
         eventCount++;
-        words.add(eventData);
+        data.add(eventData);
     }
 
     public long getEventCount() {
         return eventCount;
     }
 
-    public long getWordCount() {
-        return words.size();
+    public long getDataCount() {
+        return data.size();
     }
 }

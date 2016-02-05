@@ -6,8 +6,8 @@ import event.parsing.model.EventStats;
 /**
  * Created by bharel on 2/4/2016.
  */
-public interface EventDigester {
-    void digest(Event event);
+public interface EventDigester<T> {
+    void digest(Event<T> event);
 
-    EventStats getEventStats(String eventType);
+    EventStats<T> getEventStats(String eventType);
 }
