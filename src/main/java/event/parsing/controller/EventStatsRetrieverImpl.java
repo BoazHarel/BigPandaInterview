@@ -2,9 +2,11 @@ package event.parsing.controller;
 
 import event.parsing.backend.EventConsumer;
 import event.parsing.model.EventStats;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.MessageFormat;
 import java.util.AbstractMap;
 import java.util.Collections;
 import java.util.Map;
@@ -15,6 +17,7 @@ import java.util.Set;
  */
 @Service
 public class EventStatsRetrieverImpl implements EventStatsRetriever {
+    private static Logger logger = Logger.getLogger(EventStatsRetrieverImpl.class);
 
     @Autowired
     private EventConsumer eventConsumer;
@@ -23,6 +26,7 @@ public class EventStatsRetrieverImpl implements EventStatsRetriever {
     public Map.Entry<String, Long> getEventCount(String eventType) {
         EventStats eventStats = getEventStats(eventType);
         long eventCount = eventStats.getEventCount();
+        logger.trace(MessageFormat.format("Event type: ''{0}'', event count: {1}", eventType, eventCount));
         return new AbstractMap.SimpleEntry<>(eventType, eventCount);
     }
 
@@ -34,11 +38,14 @@ public class EventStatsRetrieverImpl implements EventStatsRetriever {
     public Map.Entry<String, Long> getWordCount(String eventType) {
         EventStats eventStats = getEventStats(eventType);
         long dataCount = eventStats.getDataCount();
+        logger.trace(MessageFormat.format("Event type: ''{0}'', word count: {1}", eventType, dataCount));
         return new AbstractMap.SimpleEntry<>(eventType, dataCount);
     }
 
     @Override
     public Set<String> getEventTypes() {
-        return eventConsumer.getEventTypeToStatsMap().keySet();
+        Set<String> eventTypes = eventConsumer.getEventTypeToStatsMap().keySet();
+        logger.trace(MessageFormat.format("Event types: ''{0}''", eventTypes));
+        return eventTypes;
     }
 }

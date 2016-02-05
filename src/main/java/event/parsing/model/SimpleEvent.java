@@ -53,4 +53,12 @@ public class SimpleEvent implements Event {
         this.timeStamp = timeStamp;
     }
 
+    @Override
+    public String toString() {
+        return "SimpleEvent{" +
+                    "type='" + type + '\'' +
+                    ", data='" + data + '\'' +
+                    ", timeStamp=" + timeStamp +
+                    '}';
+    }
 }

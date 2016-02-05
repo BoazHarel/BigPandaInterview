@@ -18,24 +18,23 @@ import java.nio.file.Path;
  */
 @SpringBootApplication
 public class Application {
-
     public static void main(String[] args)
                 throws IOException {
         ConfigurableApplicationContext applicationContext = SpringApplication.run(Application.class, args);
         EventProducer eventProducer = applicationContext.getBean(EventProducerImpl.class);
 
+        Process process = startJsonGeneratingProcess();
+
+        InputStream processInputStream = process.getInputStream();
+        eventProducer.setStream(processInputStream);
+        eventProducer.startProducing();
+    }
+
+    private static Process startJsonGeneratingProcess()
+                throws IOException {
         String pathToExecutable = copyExecutableToTemp();
         ProcessBuilder processBuilder = new ProcessBuilder(pathToExecutable);
-
-        try {
-            Process process = processBuilder.start();
-            InputStream processInputStream = process.getInputStream();
-            eventProducer.setStream(processInputStream);
-            eventProducer.startProducing();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        return processBuilder.start();
     }
 
     private static String copyExecutableToTemp()

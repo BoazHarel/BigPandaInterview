@@ -2,10 +2,12 @@ package event.parsing.backend;
 
 import event.parsing.model.Event;
 import event.parsing.model.EventStats;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.text.MessageFormat;
 import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.SynchronousQueue;
@@ -17,13 +19,15 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class EventConsumerImpl implements EventConsumer {
 
+    private static Logger logger = Logger.getLogger(EventConsumerImpl.class);
+
     @Autowired
     private EventProducer eventProducer;
     private SynchronousQueue<Event> events;
     private ConcurrentSkipListMap<String, EventStats> eventTypeToStats;
 
     @PostConstruct
-    private void setup(){
+    private void setup() {
         events = eventProducer.getEvents();
         eventTypeToStats = new ConcurrentSkipListMap<>();
         consume();
@@ -34,20 +38,19 @@ public class EventConsumerImpl implements EventConsumer {
         return eventTypeToStats;
     }
 
-    private void consume(){
+    private void consume() {
         Thread thread = new Thread(() -> {
-            while (true){
+            while (true) {
                 try {
                     Event event = events.poll();
-                    if(event == null){
-                        Thread.sleep(TimeUnit.SECONDS.toMillis(1));
+                    if (event == null) {
+                        Thread.sleep(0);
                         continue;
                     }
 
                     consume(event);
                 } catch (InterruptedException e) {
-                    System.out.println(e);
-                    e.printStackTrace();
+                    logger.error(e);
                 }
             }
         }, EventConsumerImpl.class.getSimpleName());
@@ -58,10 +61,22 @@ public class EventConsumerImpl implements EventConsumer {
         String eventType = event.getType();
         String eventData = event.getData();
 
-        if(!eventTypeToStats.containsKey(eventType)){
-            eventTypeToStats.put(eventType, new EventStats(eventData));
+        if (!eventTypeToStats.containsKey(eventType)) {
+            addNewEventType(eventType, eventData);
         }
 
-        eventTypeToStats.get(eventType).addEventData(eventData);
+        updateEventType(eventType, eventData);
+    }
+
+    private void updateEventType(String eventType, String eventData) {
+        EventStats eventStats = eventTypeToStats.get(eventType);
+        eventStats.addEventData(eventData);
+        logger.trace(MessageFormat.format("existing eventType: ''{0}'', eventStats: ''{1}''", eventType, eventStats));
+    }
+
+    private void addNewEventType(String eventType, String eventData) {
+        EventStats eventStats = new EventStats(eventData);
+        logger.info(MessageFormat.format("new eventType: ''{0}'', eventStats: ''{1}''", eventType, eventStats));
+        eventTypeToStats.put(eventType, eventStats);
     }
 }
